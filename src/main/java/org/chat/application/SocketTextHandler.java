@@ -1,5 +1,7 @@
 package org.chat.application;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -15,6 +17,7 @@ import java.util.List;
 @Component
 public class SocketTextHandler extends TextWebSocketHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(SocketTextHandler.class);
     private SessionsManager SocketSessionManager;
 
     public SocketTextHandler(SessionsManager SocketSessionManager) {
@@ -25,6 +28,8 @@ public class SocketTextHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         this.SocketSessionManager.addSession(session, session.getId());
 
+        logger.info("User Connected to Server. UserName: " + session.getAttributes().get("userName") +" UserId: " + session.getId());
+
         String userConnMsg = "----- " + session.getAttributes().get("userName") +" Connected -------";
         broadCastMessage(session, userConnMsg, true);
     }
@@ -32,6 +37,9 @@ public class SocketTextHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         this.SocketSessionManager.removeSession(session);
+
+        logger.info("User Disconnected to Server. UserName: " + session.getAttributes().get("userName") +" UserId: " + session.getId());
+
         String userDisconnectedMsg = "----- " + session.getAttributes().get("userName") +" Disconnected -----";
         broadCastMessage(session, userDisconnectedMsg, true);
     }
@@ -41,6 +49,9 @@ public class SocketTextHandler extends TextWebSocketHandler {
             throws IOException {
 
         String incomingMessage = message.getPayload();
+
+        logger.info("Incoming TextMessage --> From: {" + session.getAttributes().get("userName") +"} Message: {" + message.getPayload() + "} UserId: {" + session.getId()+"}");
+
         broadCastMessage(session, message.getPayload(), false);
     }
 
@@ -48,14 +59,21 @@ public class SocketTextHandler extends TextWebSocketHandler {
     {
         List<WebSocketSession> sessionList = this.SocketSessionManager.getSessionList();
 
+        String currentActiveUsersList = "";
+
         for(WebSocketSession socketSession: sessionList)
         {
+            String userName = (String) originator.getAttributes().get("userName");
             try {
-                socketSession.sendMessage(new TextMessage(isSystemMsg ? message : originator.getAttributes().get("userName") + " : " + message));
+                socketSession.sendMessage(new TextMessage(isSystemMsg ? message : userName + " : " + message));
             }catch (Exception e)
             {
                 System.out.println("Caught Exception: " + e.toString());
             }
+
+            currentActiveUsersList+=socketSession.getAttributes().get("userName")+",";
         }
+
+        logger.info("CurrentActiveUsers: {" + currentActiveUsersList.substring(0, currentActiveUsersList.length()-1)+"}");
     }
 }

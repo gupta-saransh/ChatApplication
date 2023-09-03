@@ -1,5 +1,7 @@
 package org.chat.application;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -13,7 +15,7 @@ import java.util.Map;
  */
 @Component
 public class SessionsManager {
-
+    private static final Logger logger = LoggerFactory.getLogger(SessionsManager.class);
     Map<WebSocketSession, String> sessionMap = new HashMap<>();
 
     public void addSession(WebSocketSession session, String id) throws Exception
@@ -23,6 +25,7 @@ public class SessionsManager {
             throw new Exception("Session" + id + "already exists!!");
         }
         sessionMap.put(session, id);
+        logger.info("Added Session Info in Map. SessionId: " + id);
     }
 
     public void removeSession(WebSocketSession session) throws Exception
@@ -33,6 +36,7 @@ public class SessionsManager {
         }
 
         sessionMap.remove(session);
+        logger.info("Removed Session Info in Map. SessionId: " + session.getId());
     }
 
     public List<WebSocketSession> getSessionList(){
