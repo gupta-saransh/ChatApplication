@@ -58,6 +58,8 @@ function createWebSocketConn(){
             newMessage = existingMessages + "\n"+ message.data;
             console.log("New" + newMessage);
             document.getElementById("chatArea").textContent = newMessage;
+            let textarea = document.getElementById('chatArea');
+            textarea.scrollTop = textarea.scrollHeight;
         }
       }
 }
