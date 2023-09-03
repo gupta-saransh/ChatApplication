@@ -14,7 +14,9 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import java.util.Map;
-
+/**
+ * @author Saransh Gupta
+ */
 @Configuration
 @EnableWebSocket
 public class WebSocketConfigurator implements WebSocketConfigurer {

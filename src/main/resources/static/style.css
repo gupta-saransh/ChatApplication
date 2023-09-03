@@ -11,7 +11,7 @@ body {
   color: #333;
 }
 
-/* Style the signup container */
+/* Style the signup container with default styles */
 .signup-container {
   text-align: center;
   background-color: #f2f2f2;
@@ -22,7 +22,7 @@ body {
   width: 100%;
 }
 
-/* Style the input text box */
+/* Style the input text box with default styles */
 .input-text {
   padding: 10px;
   width: 100%;
@@ -31,7 +31,7 @@ body {
   margin-bottom: 10px;
 }
 
-/* Style the sign-in button */
+/* Style the sign-in button with default styles */
 .sign-in-btn {
   padding: 10px 20px;
   background-color: #0074d9;
@@ -41,7 +41,7 @@ body {
   cursor: pointer;
 }
 
-/* Style the mainChat container */
+/* Style the mainChat container with default styles */
 #mainChat {
   background-color: #fff;
   padding: 20px;
@@ -51,7 +51,7 @@ body {
   max-width: 800px;
 }
 
-/* Style the chatArea textarea */
+/* Style the chatArea textarea with default styles */
 #chatArea {
   font-size: 20px;
   width: 100%;
@@ -64,7 +64,7 @@ body {
   overflow-y: scroll;
 }
 
-/* Style the msgInput and SubmitMsg button */
+/* Style the msgInput and SubmitMsg button with default styles */
 #msgInput,
 #SubmitMsg {
   width: 100%;
@@ -82,19 +82,31 @@ body {
   cursor: pointer;
 }
 
-/* Center align the text within the wrapper div */
+/* Center align the text within the wrapper div with default styles */
 .wrapper {
   text-align: center;
   margin: 15px 0;
 }
 
-/* Media query for larger screens (desktop) */
-@media (min-width: 768px) {
+/* Media query for smaller screens (up to 767px) */
+@media (max-width: 767px) {
+  /* Adjust styles for smaller screens here */
   .signup-container {
-    background-color: #ffffff; /* Change background color */
-    padding: 40px; /* Increase padding */
+    padding: 20px;
   }
   .input-text {
-    width: 80%; /* Adjust input width */
+    width: 100%;
+  }
+}
+
+/* Media query for larger screens (768px and above) */
+@media (min-width: 768px) {
+  /* Adjust styles for larger screens here */
+  .signup-container {
+    background-color: #ffffff;
+    padding: 40px;
+  }
+  .input-text {
+    width: 80%;
   }
 }

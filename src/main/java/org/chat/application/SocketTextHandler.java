@@ -9,7 +9,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
 import java.util.List;
-
+/**
+ * @author Saransh Gupta
+ */
 @Component
 public class SocketTextHandler extends TextWebSocketHandler {
 

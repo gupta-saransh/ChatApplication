@@ -65,9 +65,6 @@ function createWebSocketConn(){
 }
 
 
-
-
-
 const button = document.getElementById("SubmitMsg");
 button.addEventListener("click", function sendMessage(){
 
