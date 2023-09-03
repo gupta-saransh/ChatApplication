@@ -23,14 +23,14 @@ public class SocketTextHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         this.SocketSessionManager.addSession(session, session.getId());
 
-        String userConnMsg = "------- User " + session.getAttributes().get("userName") +" Connected ------";
+        String userConnMsg = "----- " + session.getAttributes().get("userName") +" Connected -------";
         broadCastMessage(session, userConnMsg, true);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         this.SocketSessionManager.removeSession(session);
-        String userDisconnectedMsg = "----- User " + session.getAttributes().get("userName") +" Disconnected -----";
+        String userDisconnectedMsg = "----- " + session.getAttributes().get("userName") +" Disconnected -----";
         broadCastMessage(session, userDisconnectedMsg, true);
     }
 
