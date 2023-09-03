@@ -1,0 +1,100 @@
+/* Reset default margins and padding */
+body, h2 {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set a background color and text color for the body */
+body {
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Style the signup container */
+.signup-container {
+  text-align: center;
+  background-color: #f2f2f2;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Style the input text box */
+.input-text {
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Style the sign-in button */
+.sign-in-btn {
+  padding: 10px 20px;
+  background-color: #0074d9;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Style the mainChat container */
+#mainChat {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+/* Style the chatArea textarea */
+#chatArea {
+  font-size: 20px;
+  width: 100%;
+  height: 400px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  overflow-y: scroll;
+}
+
+/* Style the msgInput and SubmitMsg button */
+#msgInput,
+#SubmitMsg {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+#SubmitMsg {
+  background-color: #0074d9;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+/* Center align the text within the wrapper div */
+.wrapper {
+  text-align: center;
+  margin: 15px 0;
+}
+
+/* Media query for larger screens (desktop) */
+@media (min-width: 768px) {
+  .signup-container {
+    background-color: #ffffff; /* Change background color */
+    padding: 40px; /* Increase padding */
+  }
+  .input-text {
+    width: 80%; /* Adjust input width */
+  }
+}

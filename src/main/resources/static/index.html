@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <div class="signup-container">
+      <h2>Welcome to Chat Application</h2>
+      <input type="text" placeholder="Enter your name" id="nameInput" class="input-text">
+      <button id="signInBtn" class="sign-in-btn">Sign In</button>
+    </div>
+
+    <div id="mainChat" style="display:none">
+      <div class="wrapper">
+          <textarea readonly id="chatArea"></textarea>
+      </div>
+    <br>
+
+    <input id="msgInput" placeholder="Enter message!"></input>
+    <button id="SubmitMsg">Send Message</button>
+  </div>
+	<script src="index.js"></script>
+  </body>
+</html>
