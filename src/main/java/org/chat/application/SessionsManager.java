@@ -16,10 +16,16 @@ import java.util.Map;
 @Component
 public class SessionsManager {
     private static final Logger logger = LoggerFactory.getLogger(SessionsManager.class);
-    Map<WebSocketSession, String> sessionMap = new HashMap<>();
+    Map<WebSocketSession, String> sessionMap;
 
-    public void addSession(WebSocketSession session, String id) throws Exception
+    public SessionsManager()
     {
+        sessionMap = new HashMap<>();
+    }
+
+    public void addSession(WebSocketSession session) throws Exception
+    {
+        String id = session.getId();
         if(sessionMap.containsKey(session))
         {
             throw new Exception("Session" + id + "already exists!!");
