@@ -5,6 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * @author Saransh Gupta
  */
@@ -17,5 +21,13 @@ public class AppServer {
     {
         SpringApplication.run(AppServer.class, args);
         logger.info("Server Started!");
+
+        Timer timer = new Timer();
+
+        timer.schedule( new TimerTask() {
+            public void run() {
+                logger.info("Process Alive!!");
+            }
+        }, 0, 60*1000);
     }
 }
