@@ -142,11 +142,11 @@ function handleReplyFromServer(serverReply)
 
 function appendMessageToTextArea(incomingMessage){
     let existingMessages = document.getElementById("chatArea").value;
-
+    let time = getCurrTime();
     let newMessage = "";
     console.log("Existing" + existingMessages);
     console.log("Incoming" + incomingMessage);
-    newMessage = existingMessages + "\n" + incomingMessage;
+    newMessage = existingMessages + "\n" + "["+time+"] "+incomingMessage;
     console.log("New" + newMessage);
     document.getElementById("chatArea").textContent = newMessage;
     let textarea = document.getElementById('chatArea');

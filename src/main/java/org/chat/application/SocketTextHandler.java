@@ -46,7 +46,7 @@ public class SocketTextHandler extends TextWebSocketHandler {
         }
         catch (Exception e)
         {
-            String message = e.toString();
+            String message = e.getMessage();
             sendMessageToClient(session, message, ERROR_MESSAGE);
         }
 
@@ -59,7 +59,8 @@ public class SocketTextHandler extends TextWebSocketHandler {
         logger.info("User Disconnected to Server. UserName: " + session.getAttributes().get("userName") +" UserId: " + session.getId());
 
         String userDisconnectedMsg = "----- " + session.getAttributes().get("userName") +" Disconnected -----";
-        broadCastMessage(session, userDisconnectedMsg, SYS_MESSAGE);
+        List<String> userList = this.SocketSessionManager.getUserList();
+        broadCastMessage(session, userDisconnectedMsg, SYS_MESSAGE, userList);
     }
 
     @Override
@@ -91,7 +92,7 @@ public class SocketTextHandler extends TextWebSocketHandler {
                         .withMessageType(msgType)
                         .withUserName(userName)
                         .withMessage(message)
-                        .withAttribute("CurrentUsers", userList)
+                        .withAttribute("UserList", userList)
                         .build();
 
                 socketSession.sendMessage(new TextMessage(jsonMessage));
