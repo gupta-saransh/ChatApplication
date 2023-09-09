@@ -1,5 +1,8 @@
 package org.chat.application;
 
+import org.apache.logging.log4j.message.Message;
+import org.chat.application.constants.AppConstants;
+import org.chat.application.util.JsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -10,7 +13,11 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.chat.application.constants.AppConstants.MessageType.*;
+
 /**
  * @author Saransh Gupta
  */
@@ -26,12 +33,23 @@ public class SocketTextHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        this.SocketSessionManager.addSession(session);
 
-        logger.info("User Connected to Server. UserName: " + session.getAttributes().get("userName") +" UserId: " + session.getId());
+        try {
+            this.SocketSessionManager.addSession(session);
+            logger.info("User Connected to Server. UserName: " + session.getAttributes().get("userName") +" UserId: " + session.getId());
 
-        String userConnMsg = "----- " + session.getAttributes().get("userName") +" Connected -------";
-        broadCastMessage(session, userConnMsg, true);
+            String userConnMsg = "----- " + session.getAttributes().get("userName") +" Connected -------";
+
+
+            List<String> userList = this.SocketSessionManager.getUserList();
+            broadCastMessage(session, userConnMsg, SYS_MESSAGE, userList);
+        }
+        catch (Exception e)
+        {
+            String message = e.toString();
+            sendMessageToClient(session, message, ERROR_MESSAGE);
+        }
+
     }
 
     @Override
@@ -41,7 +59,7 @@ public class SocketTextHandler extends TextWebSocketHandler {
         logger.info("User Disconnected to Server. UserName: " + session.getAttributes().get("userName") +" UserId: " + session.getId());
 
         String userDisconnectedMsg = "----- " + session.getAttributes().get("userName") +" Disconnected -----";
-        broadCastMessage(session, userDisconnectedMsg, true);
+        broadCastMessage(session, userDisconnectedMsg, SYS_MESSAGE);
     }
 
     @Override
@@ -49,31 +67,61 @@ public class SocketTextHandler extends TextWebSocketHandler {
             throws IOException {
 
         String incomingMessage = message.getPayload();
+        String userName = getUserName(session);
+        logger.info("Incoming TextMessage --> From: {" + userName +"} Message: {" + incomingMessage + "} UserId: {" + session.getId()+"}");
 
-        logger.info("Incoming TextMessage --> From: {" + session.getAttributes().get("userName") +"} Message: {" + message.getPayload() + "} UserId: {" + session.getId()+"}");
-
-        broadCastMessage(session, message.getPayload(), false);
+        broadCastMessage(session, incomingMessage, CHAT_MESSAGE);
     }
 
-    private void broadCastMessage(WebSocketSession originator, String message,boolean isSystemMsg)
+    private void broadCastMessage(WebSocketSession originator, String message, AppConstants.MessageType msgType)
+    {
+        broadCastMessage(originator, message, msgType, new ArrayList<>());
+    }
+
+    private void broadCastMessage(WebSocketSession originator, String message, AppConstants.MessageType msgType, List<String> userList)
     {
         List<WebSocketSession> sessionList = this.SocketSessionManager.getSessionList();
 
-        String currentActiveUsersList = "";
-
         for(WebSocketSession socketSession: sessionList)
         {
-            String userName = (String) originator.getAttributes().get("userName");
+            String userName = getUserName(originator);
             try {
-                socketSession.sendMessage(new TextMessage(isSystemMsg ? message : userName + " : " + message));
+
+                String jsonMessage = new JsonBuilder()
+                        .withMessageType(msgType)
+                        .withUserName(userName)
+                        .withMessage(message)
+                        .withAttribute("CurrentUsers", userList)
+                        .build();
+
+                socketSession.sendMessage(new TextMessage(jsonMessage));
             }catch (Exception e)
             {
                 System.out.println("Caught Exception: " + e.toString());
             }
-
-            currentActiveUsersList+=socketSession.getAttributes().get("userName")+",";
         }
+    }
 
-        logger.info("CurrentActiveUsers: {" + currentActiveUsersList.substring(0, currentActiveUsersList.length()-1)+"}");
+    private void sendMessageToClient(WebSocketSession session, String message, AppConstants.MessageType msgType) throws IOException {
+
+        try {
+            String userName = getUserName(session);
+            String jsonMessage = new JsonBuilder()
+                    .withMessageType(msgType)
+                    .withUserName(userName)
+                    .withMessage(message)
+                    .build();
+
+            session.sendMessage(new TextMessage(jsonMessage));
+        }
+        catch (Exception e)
+        {
+            logger.info(e.toString());
+        }
+    }
+
+    private String getUserName(WebSocketSession session)
+    {
+        return session.getAttributes().get("userName").toString();
     }
 }

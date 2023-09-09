@@ -6,10 +6,12 @@ import org.springframework.web.socket.WebSocketExtension;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import javax.websocket.Session;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +45,10 @@ public class MockWebSocketSession implements WebSocketSession {
 
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("userName", Id);
+        return map;
     }
 
     @Override
