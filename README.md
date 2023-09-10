@@ -18,7 +18,9 @@ The project comes with a runnable jar file encasing the tomcat server as well as
 $ java -jar ChatApplication-1.0.0-SNAPSHOT.jar
 ```
 
-This starts the server which can be accessed at `localhost:8080`. You can start interacting with it from different machines by replacing localhost with the IP address of the host machine.
+This starts the server which can be accessed at `localhost:8080`. You can start interacting with it from different machines by replacing localhost with the IP address of the host machine. The running application looks something like below:
+
+![Application Screen Shot](AppScreenShot.PNG)
 
 ---
 
