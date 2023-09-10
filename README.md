@@ -30,4 +30,4 @@ This a maven project and can be built using simple maven commands, the front-end
 $ mvn clean install
 ```
 
-Alternatively an IDE such as IntelliJ m
+Alternatively an IDE such as IntelliJ might be used. Since the project is currently Vanilla JavaScript the front end code does not need to be built.
