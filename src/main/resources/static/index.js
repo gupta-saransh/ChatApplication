@@ -65,6 +65,11 @@ function getCurrTime(){
     let currHour = currDate.getHours(); // => 9
     let currMin = currDate.getMinutes(); // =>  30
 
+    if(currMin/10==0) //single digit
+    {
+        currMin="0"+currMin;
+    }
+
     let currTime = currHour + ':' + currMin;
 
     return currTime;
@@ -126,6 +131,7 @@ function handleReplyFromServer(serverReply)
                 startUp=false;
             }
             document.getElementById("userList").innerHTML = "Current Active Users: [" + userList +"]";
+            document.getElementById("activeUserNum").innerHTML=userList.length;
             appendMessageToTextArea(incomingMessage);
             break;
         case "CHAT_MESSAGE":
